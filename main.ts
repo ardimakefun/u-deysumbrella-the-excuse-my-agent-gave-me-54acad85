@@ -23,6 +23,13 @@ if (EXCUSE.includes("\n") || EXCUSE.includes("\r")) {
   throw new Error("Excuse must be a single line (no newline characters)");
 }
 
+// Leading/trailing whitespace would be invisible padding that still counts
+// toward the 200-character cap and could be trimmed by the judge, changing
+// the judged text; the excuse must be exactly the line as written.
+if (EXCUSE !== EXCUSE.trim()) {
+  throw new Error("Excuse must not have leading or trailing whitespace");
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", EXCUSE, "utf8");
 
